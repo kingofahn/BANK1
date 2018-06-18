@@ -1,13 +1,16 @@
 package service;
 import domain.*;
 public interface AccountService {
-	public AccountBean createAccount(AccountBean account);
-	public MinusAccountBean createMinusAccount(MinusAccountBean minusAccount);
+	public void createAccount(AccountBean account);
+	public void createMinusAccount(MinusAccountBean minusAccount);
 	public void addList(AccountBean account);
 	public AccountBean[] list();
+	public MinusAccountBean[] minusList();
 	public String createAccountNum();
 	public String createRandom(int start, int end);
 	public String createDate();
-	public String showResult(AccountBean[] list);
-	public String toString(AccountBean account);
+	public AccountBean findById(AccountBean account); //인터페이스에 없는 추상메소드를 할때는 controller에서 
+	public AccountBean[] findByName(String name);
+	public int countSameWord(String word);
+	public String findByNameResult(AccountBean[] arr);
 }
