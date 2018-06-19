@@ -1,5 +1,6 @@
 package controller;
 
+import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
 import javax.swing.JOptionPane;
 
 import domain.AccountBean;
@@ -9,18 +10,20 @@ import service.*;
 
 public class AccountController {
 	enum AccountButt {
-		EXIT, ACCOUNT, MINUS_ACCOUNT, LIST, FIND_BY_ID, FIND_BY_NAME, MINUS_LIST
+		EXIT, ACCOUNT, MINUS_ACCOUNT, LIST, FIND_BY_ID, FIND_BY_NAME, MINUS_LIST, CHANGE_PASS,DELETE_ACCOUNT
 	};
 
 	public static void main(String[] args) {
-		AccountService service = new AccountServiceImpl();
+		AccountService service = new AccountServiceImpl();  //  sub class의 datatype 을 super class로 정의
 		AccountBean account =null;
 		MinusAccountBean minusAccount = null;
 		while (true) {
 			AccountButt select = (AccountButt) JOptionPane.showInputDialog(null, "BANK", "SELECT MENU",
 					JOptionPane.QUESTION_MESSAGE, null, new AccountButt[] { AccountButt.EXIT, AccountButt.ACCOUNT,
-							AccountButt.MINUS_ACCOUNT, AccountButt.LIST, AccountButt.MINUS_LIST, AccountButt.FIND_BY_ID,AccountButt.FIND_BY_NAME},
-					null);
+							AccountButt.MINUS_ACCOUNT, AccountButt.LIST, AccountButt.MINUS_LIST, AccountButt.FIND_BY_ID,
+							AccountButt.FIND_BY_NAME , AccountButt.CHANGE_PASS, AccountButt.DELETE_ACCOUNT},
+							null);
+		 
 			switch (select) {
 			case EXIT:
 				return;
@@ -55,6 +58,26 @@ public class AccountController {
 				account.setPass(JOptionPane.showInputDialog("Pass?"));
 				JOptionPane.showMessageDialog(null, service.findById(account));
 				break;
+			case CHANGE_PASS:
+				account = new AccountBean();
+				account.setUid(JOptionPane.showInputDialog("ID?"));
+				account.setPass(
+						   (JOptionPane.showInputDialog("Pass?"))
+									+ "/" + 
+						   (JOptionPane.showInputDialog("New Pass?")));
+				JOptionPane.showMessageDialog(null,service.changePass(account));
+				break;
+			case DELETE_ACCOUNT: 
+				account = new AccountBean();
+				account.setUid(JOptionPane.showInputDialog("ID?"));
+				account.setPass(
+						   (JOptionPane.showInputDialog("Pass?"))
+									+ "/" + 
+						   (JOptionPane.showInputDialog("Confirm Pass?")));
+				JOptionPane.showMessageDialog(null, service.deleteAccount(account));
+				
+				break;
+			default :break;
 			}
 		}
 	}

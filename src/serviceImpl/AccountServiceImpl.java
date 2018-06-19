@@ -2,9 +2,7 @@ package serviceImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.swing.JOptionPane;
-
 import domain.*;
 import service.AccountService;
 
@@ -18,6 +16,7 @@ public class AccountServiceImpl implements AccountService {
 		minusList = new MinusAccountBean[10000];
 		count = 0;
 	}
+
 	@Override
 	public void createAccount(AccountBean account) {
 		account.setAccountNo(createAccountNum());
@@ -25,6 +24,7 @@ public class AccountServiceImpl implements AccountService {
 		account.setCreateDate(createDate());
 		addList(account);
 	}
+
 	@Override
 	public void createMinusAccount(MinusAccountBean minusAccount) {
 		minusAccount.setAccountNo(createAccountNum());
@@ -32,21 +32,32 @@ public class AccountServiceImpl implements AccountService {
 		minusAccount.setCreateDate(createDate());
 		addMinusList(minusAccount);
 	}
+
 	@Override
 	public void addList(AccountBean account) {
 		list[count++] = account;
 	}
+
 	@Override
-	public AccountBean[] list() {
-		return list;
-	}
 	public void addMinusList(MinusAccountBean minusAccount) {
 		minusList[count++] = minusAccount;
 	}
+
+	@Override
+	public AccountBean[] list() {
+		// String res ="";
+		// for(int i=0; i<list.length;i++) {
+		// res+= list[i]+"\n";
+		// }
+		// System.out.println("배열 내부 " + res);
+		return list;
+	}
+
 	@Override
 	public MinusAccountBean[] minusList() {
 		return minusList;
 	}
+
 	@Override
 	public String createAccountNum() {
 		String accountNum = "";
@@ -73,6 +84,7 @@ public class AccountServiceImpl implements AccountService {
 		for (int i = 0; i < count; i++) {
 			if (account.getUid().equals(list[i].getUid()) && (account.getPass().equals(list[i].getPass()))) {
 				acc = list[i];
+			} else {
 				break;
 			}
 		}
@@ -82,10 +94,10 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public AccountBean[] findByName(String name) {
 		AccountBean[] arr = new AccountBean[countSameWord(name)];
-		int cnt=0;
+		int cnt = 0;
 		for (int i = 0; i < count; i++) {
 			if (name.equals(list[i].getName())) {
-				arr[cnt]=list[i];
+				arr[cnt] = list[i];
 				cnt++;
 			}
 		}
@@ -94,13 +106,51 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public int countSameWord(String word) {
-		int temp = 0; 
-		String result = "";
+		int temp = 0;
 		for (int i = 0; i < count; i++) {
 			if (word.equals(list[i].getName())) {
 				temp++;
 			}
 		}
 		return temp;
+	}
+
+	@Override
+	public String changePass(AccountBean account) {
+		String msg = "";
+		String pass = account.getPass().split("/")[0];
+		String newPass = account.getPass().split("/")[1];
+		account.setPass(pass);
+		account = findById(account);
+		if (account.getUid() == null) {
+			msg = "ID 존재무 혹은 비번 틀립";
+		} else {
+			if (pass.equals(newPass)) {
+				msg = "변경실패";
+			} else {
+				account.setPass(newPass);
+				msg = "변경완료";
+			}
+		}
+		return msg;
+	}
+
+	@Override
+	public String deleteAccount(AccountBean account) {
+		String msg = "ID 존재무, 혹은 비번 틀림";
+		String pass = account.getPass().split("/")[0];
+		String confrimPass = account.getPass().split("/")[1];
+		for (int i = 0; i < count; i++) {
+			if (account.getUid().equals(list[i].getUid()) && pass.equals(list[i].getPass())
+					&& confrimPass.equals(list[i].getPass())) {
+				list[i] = list[--count];
+				list[count] =null;
+				msg = "삭제성공";
+				break;
+			} else {
+				msg = "삭제실패";
+			}
+		}
+		return msg;
 	}
 }
