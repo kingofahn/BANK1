@@ -18,7 +18,6 @@ public class AccountServiceImpl implements AccountService {
 		minusList = new MinusAccountBean[10000];
 		count = 0;
 	}
-
 	@Override
 	public void createAccount(AccountBean account) {
 		account.setAccountNo(createAccountNum());
@@ -26,7 +25,6 @@ public class AccountServiceImpl implements AccountService {
 		account.setCreateDate(createDate());
 		addList(account);
 	}
-
 	@Override
 	public void createMinusAccount(MinusAccountBean minusAccount) {
 		minusAccount.setAccountNo(createAccountNum());
@@ -34,28 +32,21 @@ public class AccountServiceImpl implements AccountService {
 		minusAccount.setCreateDate(createDate());
 		addMinusList(minusAccount);
 	}
-
 	@Override
 	public void addList(AccountBean account) {
 		list[count++] = account;
 	}
-
 	@Override
 	public AccountBean[] list() {
 		return list;
 	}
-	
 	public void addMinusList(MinusAccountBean minusAccount) {
 		minusList[count++] = minusAccount;
 	}
-
 	@Override
 	public MinusAccountBean[] minusList() {
 		return minusList;
 	}
-	
-	
-	
 	@Override
 	public String createAccountNum() {
 		String accountNum = "";
@@ -86,31 +77,21 @@ public class AccountServiceImpl implements AccountService {
 			}
 		}
 		return acc;
-		// 배열 list를 looping 하면서
-		// id가 일치하고 비번이 일치한
-		// 그 객체를 리턴한다.
-		// 일단 일치하는 값이 없는 상황은 나중에 처리
 	}
 
 	@Override
 	public AccountBean[] findByName(String name) {
 		AccountBean[] arr = new AccountBean[countSameWord(name)];
+		int cnt=0;
 		for (int i = 0; i < count; i++) {
 			if (name.equals(list[i].getName())) {
-				arr[i]=list[i];
+				arr[cnt]=list[i];
+				cnt++;
 			}
 		}
 		return arr;
 	}
 
-	public String findByNameResult(AccountBean[] arr) {
-		String result = "";
-		for (int i = 0; i < arr.length; i++) {
-			result += arr[i].toString() + "\n";
-		}
-		return result;
-	}
-	
 	@Override
 	public int countSameWord(String word) {
 		int temp = 0; 

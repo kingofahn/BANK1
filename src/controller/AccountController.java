@@ -19,7 +19,7 @@ public class AccountController {
 		while (true) {
 			AccountButt select = (AccountButt) JOptionPane.showInputDialog(null, "BANK", "SELECT MENU",
 					JOptionPane.QUESTION_MESSAGE, null, new AccountButt[] { AccountButt.EXIT, AccountButt.ACCOUNT,
-							AccountButt.MINUS_ACCOUNT, AccountButt.LIST, AccountButt.FIND_BY_ID,AccountButt.FIND_BY_NAME, AccountButt.MINUS_LIST },
+							AccountButt.MINUS_ACCOUNT, AccountButt.LIST, AccountButt.MINUS_LIST, AccountButt.FIND_BY_ID,AccountButt.FIND_BY_NAME},
 					null);
 			switch (select) {
 			case EXIT:

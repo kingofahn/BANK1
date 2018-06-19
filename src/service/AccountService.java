@@ -12,5 +12,4 @@ public interface AccountService {
 	public AccountBean findById(AccountBean account); //인터페이스에 없는 추상메소드를 할때는 controller에서 
 	public AccountBean[] findByName(String name);
 	public int countSameWord(String word);
-	public String findByNameResult(AccountBean[] arr);
 }
