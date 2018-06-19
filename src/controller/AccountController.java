@@ -1,6 +1,5 @@
 package controller;
 
-import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
 import javax.swing.JOptionPane;
 
 import domain.AccountBean;
@@ -57,6 +56,7 @@ public class AccountController {
 				account.setUid(JOptionPane.showInputDialog("ID?"));
 				account.setPass(JOptionPane.showInputDialog("Pass?"));
 				JOptionPane.showMessageDialog(null, service.findById(account));
+				
 				break;
 			case CHANGE_PASS:
 				account = new AccountBean();

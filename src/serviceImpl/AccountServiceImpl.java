@@ -45,11 +45,6 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public AccountBean[] list() {
-		// String res ="";
-		// for(int i=0; i<list.length;i++) {
-		// res+= list[i]+"\n";
-		// }
-		// System.out.println("배열 내부 " + res);
 		return list;
 	}
 
@@ -84,8 +79,9 @@ public class AccountServiceImpl implements AccountService {
 		for (int i = 0; i < count; i++) {
 			if (account.getUid().equals(list[i].getUid()) && (account.getPass().equals(list[i].getPass()))) {
 				acc = list[i];
-			} else {
 				break;
+			} else {
+				JOptionPane.showMessageDialog(null,"Id/Pass error");
 			}
 		}
 		return acc;
@@ -103,7 +99,6 @@ public class AccountServiceImpl implements AccountService {
 		}
 		return arr;
 	}
-
 	@Override
 	public int countSameWord(String word) {
 		int temp = 0;
