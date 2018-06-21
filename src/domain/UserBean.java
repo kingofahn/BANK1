@@ -1,7 +1,7 @@
 package domain;
 
 public class UserBean extends MemberBean {
-	private String creditRating="7등급";
+	private String creditRating;
 
 	public String getCreditRating() {
 		return creditRating;

@@ -1,7 +1,7 @@
 package domain;
 
 public class StaffBean extends MemberBean{
-	private String accessNum="999";
+	private String accessNum;
 	
 
 	public String getAccessNum() {

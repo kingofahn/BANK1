@@ -1,43 +1,50 @@
 package serviceImpl;
-
-import domain.AccountBean;
-import domain.MemberBean;
-import domain.StaffBean;
-import service.MemberService;
+import java.util.List;
+import java.util.ArrayList;
+import domain.*;
+import service.*;
 
 public class MemberServiceImpl implements MemberService {
-	MemberBean[] list;
-	int count;
+	List<MemberBean> list; // generic타입으로 list를 만든다.
 
 	public MemberServiceImpl() {
-		list = new MemberBean[10000];
-		count = 0;
+		list = new ArrayList<MemberBean>();
 	}
 
 	@Override
-	public void createUserMember(MemberBean member) {
-		addList(member);
-	}
-
-	public void createStaffMember(StaffBean member) {
-		addList(member);
-	}
-
-	private void addList(MemberBean member) {
-		list[count++] = member;
+	public void createStaff(StaffBean staff) {
+		staff.setAccessNum("999");
+		list.add(staff);
 	}
 
 	@Override
-	public MemberBean[] memberlist() {
+	public void createUser(UserBean user) {
+		user.setCreditRating("7등급");
+		list.add(user);
+	}
+
+	@Override
+	public List<MemberBean> list() {
 		return list;
 	}
 
 	@Override
-	public MemberBean memberFindById(MemberBean member) {
+	public List<MemberBean> Search(String param) {
+		List<MemberBean> temp = new ArrayList<>();
+		for (int i = 0; i < list.size(); i++) {
+			if (param.equals(list.get(i).getName())) {
+				temp.add(list.get(i));
+			}
+		}
+		return temp;
+	}
+
+	@Override
+	public MemberBean search(MemberBean member) {
 		MemberBean mbr = new MemberBean();
-		for (int i = 0; i < count; i++) {
-			if (member.getUid().equals(list[i].getUid()) && member.getPass().equals(list[i].getPass())) {
-				mbr = list[i];
+		for (int i = 0; i < list.size(); i++) {
+			if (member.getUid().equals(list.get(i).getUid())) {
+				mbr = list.get(i);
 				break;
 			}
 		}
@@ -45,71 +52,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberBean[] memberFindByName(String name) {
-		MemberBean[] arr = new MemberBean[countSameWord(name)];
-		int cnt = 0;
-		for (int i = 0; i < count; i++) {
-			if (name.equals(list[i].getName())) {
-				arr[cnt++] = list[i];
-			}
-		}
-		return arr;
-	}
-
-	public int countSameWord(String name) {
-		int sameWord = 0;
-		for (int i = 0; i < count; i++) {
-			if (name.equals(list[i].getName())) {
-				sameWord++;
-			}
-		}
-		return sameWord;
+	public void update(MemberBean member) { // new pass만 가지고 있을 것 같음
+		list.get(list.indexOf(search(member))).setPass(member.getPass());
 	}
 
 	@Override
-	public String memberUpdate(MemberBean member) {
-		String msg = "";
-		String oldPass = member.getPass().split("/")[0];
-		String newPass = member.getPass().split("/")[1];
-		member.setPass(oldPass);
-		member = memberFindById(member);
-		if (member.getUid() == null) {
-			msg = "ID 없거나 비번 틀림";
-		} else {
-			if (oldPass.equals(newPass)) {
-				msg = "변경실패";
-			} else {
-				member.setPass(newPass);
-				msg = "변경완료";
-			}
-		}
-		return msg;
-	}
-
-	@Override
-	public String memberDelete(MemberBean member) {
-		String msg = "";
-		String pass = member.getPass().split("/")[0];
-		String confirmPass = member.getPass().split("/")[1];
-		member.setPass(pass);
-		member = memberFindById(member);
-		for (int i = 0; i < count; i++) {
-			if (list[i].getUid().equals(member.getUid()) && pass.equals(list[i].getPass())
-					&& pass.equals(confirmPass)) {
-				list[i] = list[--count];
-				list[count] = null;
-				msg = "Completed";
-				break;
-			} else {
-				msg = "Error";
-			}
-		}
-		return msg;
-
-	}
-
-	@Override
-	public String getCount() {
-		return count+"명";
+	public void delete(MemberBean member) {
+		list.remove(list.indexOf(search(member)));
+		// list.remove(search(member)); 위를 줄이면 아래와같이 할 수 있다.
 	}
 }

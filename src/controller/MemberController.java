@@ -1,4 +1,7 @@
 package controller;
+
+import java.util.List;
+
 import javax.swing.JOptionPane;
 import domain.*;
 import serviceImpl.*;
@@ -15,8 +18,6 @@ public class MemberController {
 	public static void main(String[] args) {
 		MemberService service = new MemberServiceImpl(); // sub class의 datatype 을 super class로 정의
 		MemberBean member = null;
-		UserBean userMember = null;
-		StaffBean staffMember = null;
 		while (true) {
 			MemberButt select = (MemberButt) JOptionPane.showInputDialog(null, "BANK", "SELECT MENU",
 					JOptionPane.QUESTION_MESSAGE, null,
@@ -28,63 +29,45 @@ public class MemberController {
 			switch (select) {
 			case EXIT:
 				return;
-
 			case JOIN:
-				userMember = new UserBean();
-				userMember.setName(JOptionPane.showInputDialog("Name?"));
-				userMember.setUid(JOptionPane.showInputDialog("ID?"));
-				userMember.setPass(JOptionPane.showInputDialog("Pass?"));
-				userMember.setSsn(JOptionPane.showInputDialog("SSN?"));
-				userMember.setAddr(JOptionPane.showInputDialog("ADRS?"));
-				userMember.setPhone(JOptionPane.showInputDialog("PHONE?"));
-				userMember.setEmail(JOptionPane.showInputDialog("EMAIL?"));
-				service.createUserMember(userMember);
-				break;
-			case ADD:
-				staffMember = new StaffBean();
-				staffMember.setName(JOptionPane.showInputDialog("Name?"));
-				staffMember.setUid(JOptionPane.showInputDialog("ID?"));
-				staffMember.setPass(JOptionPane.showInputDialog("Pass?"));
-				staffMember.setSsn(JOptionPane.showInputDialog("SSN?"));
-				staffMember.setAddr(JOptionPane.showInputDialog("ADRS?"));
-				staffMember.setPhone(JOptionPane.showInputDialog("PHONE?"));
-				staffMember.setEmail(JOptionPane.showInputDialog("EMAIL?"));
-				service.createStaffMember(staffMember);
-				break;
-			case LIST:
-				JOptionPane.showMessageDialog(null,service.memberlist());
-				break;
-			case FIND_BY_ID:
-				member = new MemberBean();
+				member =new UserBean();
+				member.setName(JOptionPane.showInputDialog("Name?"));
 				member.setUid(JOptionPane.showInputDialog("ID?"));
 				member.setPass(JOptionPane.showInputDialog("Pass?"));
-				JOptionPane.showMessageDialog(null,service.memberFindById(member));
+				member.setSsn(JOptionPane.showInputDialog("SSN?"));
+				member.setAddr(JOptionPane.showInputDialog("ADRS?"));
+				member.setPhone(JOptionPane.showInputDialog("PHONE?"));
+				member.setEmail(JOptionPane.showInputDialog("EMAIL?"));
+				service.createUser((UserBean) member);
+				break;
+			case ADD:
+				member = new StaffBean();
+				member.setName(JOptionPane.showInputDialog("Name?"));
+				member.setUid(JOptionPane.showInputDialog("ID?"));
+				member.setPass(JOptionPane.showInputDialog("Pass?"));
+				member.setSsn(JOptionPane.showInputDialog("SSN?"));
+				member.setAddr(JOptionPane.showInputDialog("ADRS?"));
+				member.setPhone(JOptionPane.showInputDialog("PHONE?"));
+				member.setEmail(JOptionPane.showInputDialog("EMAIL?"));
+				service.createStaff((StaffBean) member);
+				break;
+			case LIST:
+				JOptionPane.showMessageDialog(null,service.list());
+				break;
+			case FIND_BY_ID:
+				member = new StaffBean();
+				member.setName(JOptionPane.showInputDialog("Name?"));
+				member.setUid(JOptionPane.showInputDialog("ID?"));
+				service.search(member);
 				break;
 			case FIND_BY_NAME:
-				JOptionPane.showMessageDialog(null,service.memberFindByName(JOptionPane.showInputDialog("Name?")));
 				break;
 			case COUNT:
-				JOptionPane.showMessageDialog(null,service.getCount());
 				break;
 			case UPDATE:
-				member = new MemberBean();
-				member.setUid(JOptionPane.showInputDialog("ID?"));
-				member.setPass(
-						   (JOptionPane.showInputDialog("Pass?"))
-									+ "/" + 
-						   (JOptionPane.showInputDialog("New Pass?")));
-				
-				JOptionPane.showMessageDialog(null,service.memberUpdate(member));
 				break;
 			case WITHDRAWAL:
-				member = new MemberBean();
-				member.setUid(JOptionPane.showInputDialog("ID?"));
-				member.setPass(
-						   (JOptionPane.showInputDialog("Pass?"))
-									+ "/" + 
-						   (JOptionPane.showInputDialog("Confirm Pass?")));
-				
-				JOptionPane.showMessageDialog(null,service.memberDelete(member));
+				service.delete(member);
 				break;
 			default:
 				break;

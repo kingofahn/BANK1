@@ -1,15 +1,13 @@
 package service;
-
-import domain.MemberBean;
-import domain.StaffBean;
-
+import java.util.List;
+import domain.*;
 public interface MemberService {
-	public void createUserMember(MemberBean member);
-	public void createStaffMember(StaffBean staffMember);
-	public MemberBean[] memberlist();
-	public MemberBean memberFindById(MemberBean member);
-	public MemberBean[] memberFindByName(String name);
-	public String memberUpdate(MemberBean member);
-	public String memberDelete(MemberBean member);
-	public String getCount();
+	public void createUser(UserBean user);
+	public void createStaff(StaffBean staff);
+	public List<MemberBean> list();  //Arraylist의 최상위 개념인 List로 써야 한다. StaffBean UserBean이 아닌 MemberBean을 쓰는 이유이다.
+	public List<MemberBean> Search(String param);
+	public MemberBean search(MemberBean member);
+	public void update(MemberBean member);
+	public void delete(MemberBean member);
+	
 }
