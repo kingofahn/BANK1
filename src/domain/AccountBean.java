@@ -82,7 +82,7 @@ public class AccountBean {
 		return withdraw;
 	}
 	public String toString() {
-		return String.format("%s \n %s \n 계좌번호 : %s \n 이름 : %s \n 생성일 : %s \n 잔액 : %s 원 \n 비밀번호 : ****** ",
-				BANK_NAME, accountType, accountNo, name, createDate, money);
+		return String.format("%s \n %s \n 계좌번호 : %s \n 이름 : %s \n 생성일 : %s \n 잔액 : %s 원 \n 비밀번호 : %s ",
+				BANK_NAME, accountType, accountNo, name, createDate, money,pass);
 	}
 }

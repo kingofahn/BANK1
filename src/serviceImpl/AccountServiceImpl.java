@@ -48,34 +48,51 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public List<AccountBean> serachByName(String param) {
+	public List<AccountBean> findByName(String param) {
 		List<AccountBean> temp = new ArrayList<>();
-		for (int i = 0; i < list.size(); i++) {
-			if (param.equals(list.get(i).getName())) {
-				temp.add(list.get(i));
+		for (AccountBean e : list) {
+			if (param.equals(e.getName())) {
+				temp.add(e);
 			}
 		}
 		return temp;
 	}
+		
+//		List<AccountBean> temp = new ArrayList<>();
+//		for (int i = 0; i < list.size(); i++) {
+//			if (param.equals(list.get(i).getName())) {
+//				temp.add(list.get(i));
+//			}
+//		}
+//		return temp;
+//	}
 
 	@Override
-	public AccountBean searchById(AccountBean account) {
+	public AccountBean findById(AccountBean account) {
 		AccountBean acc = new AccountBean();
-		for (int i = 0; i < list.size(); i++) {
-			if (account.getUid().equals(list.get(i).getUid())) {
-				acc = list.get(i);break;
+		for (AccountBean e : list) {
+			if (account.getUid().equals(e.getUid())) {
+				acc = e;break;
 			}
 		}
 		return acc;
+		
+//		AccountBean acc = new AccountBean();
+//		for (int i = 0; i < list.size(); i++) {
+//			if (account.getUid().equals(list.get(i).getUid())) {
+//				acc = list.get(i);break;
+//			}
+//		}
+//		return acc;
 	}
 	@Override
 	public void delete(AccountBean account) {
-		list.remove(list.indexOf(searchById(account)));
+		list.remove(list.indexOf(findById(account)));
 	}
 
 	@Override
 	public void update(AccountBean account) {
-		list.get(list.indexOf(searchById(account))).setPass(account.getPass());
+		list.get(list.indexOf(findById(account))).setPass(account.getPass());
 	}
 
 }
